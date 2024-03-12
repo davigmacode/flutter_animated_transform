@@ -14,56 +14,38 @@ class AnimatedTransform extends ImplicitlyAnimatedWidget {
     super.key,
     super.duration = const Duration(milliseconds: 200),
     super.curve = Curves.linear,
-    this.alignment,
-    required this.transform,
+    this.offset = Offset.zero,
+    this.scale = 1.0,
+    this.rotate = 0.0,
+    this.flipX = false,
+    this.flipY = false,
+    this.alignment = Alignment.center,
     required this.child,
   });
 
-  /// Create an animated transform widget from direct transform values
-  ///
-  /// The [offset] prop used to moves a child element
-  /// a certain distance away from its default position.
-  ///
-  /// The [scale] prop used to adjust the size of
-  /// the child element relative to its original size.
+  /// Moves a child element a certain distance away from its default position.
+  final Offset offset;
+
+  /// Adjust the size of the child element relative to its original size.
   /// A value of 1 maintains the original size,
   /// while values greater than 1 enlarge
   /// and values less than 1 shrink the element.
-  ///
-  /// The [rotate] prop used to rotates child element
-  /// by a specified number of degrees.
+  final double scale;
+
+  /// Rotates child element by a specified number of degrees.
   /// Use a positive value for clockwise rotation
   /// or a negative value for counter-clockwise rotation.
-  ///
-  /// The [flipX] prop controls whether
-  /// the child widget is flipped horizontally (mirrored).
+  final double rotate;
+
+  /// Controls whether the child widget is flipped horizontally (mirrored).
   /// Setting flipX to true will cause the child
   /// to be displayed as if reflected across a vertical axis.
-  ///
-  /// The [flipY] prop controls whether
-  /// the child widget is flipped vertically (inverted).
+  final bool flipX;
+
+  /// Controls whether the child widget is flipped vertically (inverted).
   /// Setting flipY to true will cause the child
   /// to be displayed as if reflected across a horizontal axis.
-  AnimatedTransform.values({
-    super.key,
-    super.duration = const Duration(milliseconds: 200),
-    super.curve = Curves.linear,
-    Offset offset = Offset.zero,
-    double scale = 1.0,
-    double rotate = 0.0,
-    bool flipX = false,
-    bool flipY = false,
-    this.alignment = Alignment.center,
-    required this.child,
-  }) : transform = Matrix4.identity()
-          ..translate(offset.dx, offset.dy)
-          ..scale(scale)
-          ..rotateX(flipY ? _pi : 0.0)
-          ..rotateY(flipX ? _pi : 0.0)
-          ..rotateZ(_getRadiansFromDegrees(rotate));
-
-  /// The transformation matrix to apply before painting the child.
-  final Matrix4 transform;
+  final bool flipY;
 
   /// The alignment of the origin, relative to the size of the child, if [transform] is specified.
   ///
@@ -83,19 +65,47 @@ class AnimatedTransform extends ImplicitlyAnimatedWidget {
 
 class AnimatedTransformState
     extends AnimatedWidgetBaseState<AnimatedTransform> {
-  late Matrix4Tween transformTween;
-  AlignmentGeometryTween? alignmentTween;
+  Tween<Offset>? _tweenOffset;
+  Tween<double>? _tweenScale;
+  Tween<double>? _tweenRotateZ;
+  Tween<double>? _tweenRotateX;
+  Tween<double>? _tweenRotateY;
+  AlignmentGeometryTween? _tweenAlignment;
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    transformTween = visitor(
-      transformTween,
-      widget.transform,
-      (dynamic value) => Matrix4Tween(begin: value as Matrix4),
-    ) as Matrix4Tween;
+    _tweenOffset = visitor(
+      _tweenOffset,
+      widget.offset,
+      (dynamic value) => Tween<Offset>(begin: value),
+    ) as Tween<Offset>?;
 
-    alignmentTween = visitor(
-      alignmentTween,
+    _tweenScale = visitor(
+      _tweenScale,
+      widget.scale,
+      (dynamic value) => Tween<double>(begin: value),
+    ) as Tween<double>?;
+
+    _tweenRotateZ = visitor(
+      _tweenRotateZ,
+      widget.rotate,
+      (dynamic value) => Tween<double>(begin: value),
+    ) as Tween<double>?;
+
+    _tweenRotateX = visitor(
+      _tweenRotateX,
+      widget.flipY ? _pi : 0.0,
+      (dynamic value) => Tween<double>(begin: value),
+    ) as Tween<double>?;
+
+    _tweenRotateY = visitor(
+      _tweenRotateY,
+      widget.flipX ? _pi : 0.0,
+      (dynamic value) => Tween<double>(begin: value),
+    ) as Tween<double>?;
+
+    _tweenAlignment = visitor(
+      _tweenAlignment,
       widget.alignment,
       (dynamic value) =>
           AlignmentGeometryTween(begin: value as AlignmentGeometry),
@@ -104,8 +114,19 @@ class AnimatedTransformState
 
   @override
   Widget build(BuildContext context) {
-    final transform = transformTween.evaluate(animation);
-    final alignment = alignmentTween?.evaluate(animation);
+    final offset = _tweenOffset?.evaluate(animation) ?? Offset.zero;
+    final scale = _tweenScale?.evaluate(animation) ?? 1.0;
+    final rotateX = _tweenRotateX?.evaluate(animation) ?? 0.0;
+    final rotateY = _tweenRotateY?.evaluate(animation) ?? 0.0;
+    final rotateZ = _tweenRotateZ?.evaluate(animation) ?? 0.0;
+    final alignment = _tweenAlignment?.evaluate(animation);
+
+    final transform = Matrix4.identity()
+      ..translate(offset.dx, offset.dy)
+      ..scale(scale > 0 ? scale : 0.0)
+      ..rotateZ(_getRadiansFromDegrees(rotateZ))
+      ..rotateX(rotateX)
+      ..rotateY(rotateY);
 
     return Transform(
       transform: transform,
