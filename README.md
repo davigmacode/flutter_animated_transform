@@ -1,6 +1,6 @@
 [![Pub Version](https://img.shields.io/pub/v/animated_transform)](https://pub.dev/packages/animated_transform) ![GitHub](https://img.shields.io/github/license/davigmacode/flutter_animated_transform) [![GitHub](https://badgen.net/badge/icon/buymeacoffee?icon=buymeacoffee&color=yellow&label)](https://www.buymeacoffee.com/davigmacode) [![GitHub](https://badgen.net/badge/icon/ko-fi?icon=kofi&color=red&label)](https://ko-fi.com/davigmacode)
 
-Scale, rotate, flip, and position widget with animation.
+A widget that allows to dynamically scale, rotate, flip, and position of the child widget over time with animation capabilities.
 
 [![Preview](https://github.com/davigmacode/flutter_animated_transform/raw/main/media/preview.gif)](https://davigmacode.github.io/flutter_animated_transform)
 

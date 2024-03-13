@@ -1,3 +1,7 @@
+## 1.0.2
+
+* Updated package description
+
 ## 1.0.1
 
 * Updated readme
