@@ -1,7 +1,11 @@
 name: animated_transform
-description: Transform widget with animation.
+description: Scale, rotate, flip, and position widget with animation.
 version: 1.0.0
 homepage: https://github.com/davigmacode/flutter_animated_transform
+
+screenshots:
+  - description: "Main Preview"
+    path: media/preview.gif
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
