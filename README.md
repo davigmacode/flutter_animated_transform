@@ -2,7 +2,7 @@
 
 Scale, rotate, flip, and position widget with animation.
 
-[![Preview](https://github.com/davigmacode/flutter_animated_transform/raw/master/media/preview.gif)](https://davigmacode.github.io/flutter_animated_transform)
+[![Preview](https://github.com/davigmacode/flutter_animated_transform/raw/main/media/preview.gif)](https://davigmacode.github.io/flutter_animated_transform)
 
 [Demo](https://davigmacode.github.io/flutter_animated_transform)
 
