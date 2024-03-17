@@ -1,3 +1,5 @@
+library animated_transform;
+
 import 'package:flutter/widgets.dart';
 
 /// The PI constant.

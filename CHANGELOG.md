@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Added library keyword
+
 ## 1.0.2
 
 * Updated package description
