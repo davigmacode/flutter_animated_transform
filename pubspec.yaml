@@ -1,6 +1,6 @@
 name: animated_transform
 description: A widget that allows to dynamically scale, rotate, flip, and position of the child widget over time with animation capabilities.
-version: 1.0.4
+version: 1.0.5
 homepage: https://github.com/davigmacode/flutter_animated_transform
 
 topics:
