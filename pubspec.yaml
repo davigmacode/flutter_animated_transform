@@ -3,10 +3,6 @@ description: A widget that allows to dynamically scale, rotate, flip, and positi
 version: 1.0.4
 homepage: https://github.com/davigmacode/flutter_animated_transform
 
-screenshots:
-  - description: "Main Preview"
-    path: media/preview.gif
-
 topics:
   - ui
   - transform
