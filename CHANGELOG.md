@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Reduce package size
+
 ## 1.0.3
 
 * Added library keyword
