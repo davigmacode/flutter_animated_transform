@@ -1,3 +1,7 @@
+## 1.0.6
+
+* Adjust sdk constraints
+
 ## 1.0.5
 
 * Include example in package archive
